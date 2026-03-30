@@ -1,0 +1,219 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8 px-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div>
+        <h1 class="text-4xl font-bold">📝 Online Exams</h1>
+        <p class="text-blue-100 mt-2">Test your knowledge and improve your skills</p>
+      </div>
+      <button 
+        (click)="goToDashboard()" 
+        class="px-6 py-2 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition">
+        ← Back to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-12">
+      <div class="inline-block">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+      <p class="text-gray-600 mt-4">Loading exams...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+      <p class="text-red-800">{{ error }}</p>
+    </div>
+
+    <!-- Exam Selection View -->
+    <div *ngIf="!testStarted && !testCompleted && !loading && questions.length > 0" class="space-y-6">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center space-x-4 mb-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+            <span class="text-xl">📚</span>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800">Ready to Test?</h2>
+            <p class="text-gray-600">You have {{ questions.length }} questions to answer</p>
+          </div>
+        </div>
+        <button 
+          (click)="startTest()" 
+          class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:shadow-lg text-white font-bold py-3 px-6 rounded-lg transition">
+          Start Test Now ⚡
+        </button>
+      </div>
+
+      <!-- Questions Preview -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div 
+          *ngFor="let question of questions; let i = index" 
+          class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <div class="flex items-start space-x-3">
+            <div class="flex-shrink-0">
+              <div class="flex items-center justify-center h-8 w-8 rounded-md bg-blue-600 text-white">
+                {{ i + 1 }}
+              </div>
+            </div>
+            <div class="flex-grow">
+              <p class="text-gray-800 font-semibold text-sm line-clamp-3">{{ question.questionText }}</p>
+              <div class="mt-2 flex items-center space-x-2">
+                <span class="px-2 py-1 text-xs font-medium rounded-full" 
+                  [ngClass]="question.difficulty === 'EASY' ? 'bg-green-100 text-green-800' : 
+                            question.difficulty === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' : 
+                            'bg-red-100 text-red-800'">
+                  {{ question.difficulty }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test In Progress -->
+    <div *ngIf="testStarted && !testCompleted" class="space-y-6">
+      <!-- Timer and Progress  -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <p class="text-gray-600 text-sm">Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}</p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+              <div 
+                class="bg-blue-600 h-2 rounded-full transition-all" 
+                [style.width.%]="((currentQuestionIndex + 1) / questions.length) * 100">
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-3xl font-bold" [ngClass]="timeRemaining < 300 ? 'text-red-600' : 'text-blue-600'">
+              {{ formatTime(timeRemaining) }}
+            </div>
+            <p class="text-gray-600 text-sm">Time Remaining</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question -->
+      <div *ngIf="getCurrentQuestion()" class="bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+          {{ getCurrentQuestion()?.questionText }}
+        </h2>
+
+        <!-- Options -->
+        <div class="space-y-3 mb-8">
+          <label 
+            *ngFor="let option of ['A', 'B', 'C', 'D']" 
+            class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition hover:border-blue-500 hover:bg-blue-50"
+            [class.border-blue-600]="answers.get(getCurrentQuestion()!.id) === option"
+            [class.bg-blue-100]="answers.get(getCurrentQuestion()!.id) === option">
+            <input 
+              type="radio" 
+              [value]="option"
+              [checked]="answers.get(getCurrentQuestion()!.id) === option"
+              (change)="selectAnswer(option)"
+              class="w-4 h-4 text-blue-600 cursor-pointer">
+            <span class="ml-4 text-lg font-medium text-gray-800">
+              {{ option }}. 
+              <span [ngSwitch]="option">
+                <span *ngSwitchCase="'A'">{{ getCurrentQuestion()?.optionA }}</span>
+                <span *ngSwitchCase="'B'">{{ getCurrentQuestion()?.optionB }}</span>
+                <span *ngSwitchCase="'C'">{{ getCurrentQuestion()?.optionC }}</span>
+                <span *ngSwitchCase="'D'">{{ getCurrentQuestion()?.optionD }}</span>
+              </span>
+            </span>
+          </label>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex gap-4 pt-6 border-t">
+          <button 
+            (click)="previousQuestion()"
+            [disabled]="currentQuestionIndex === 0"
+            class="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition">
+            ← Previous
+          </button>
+          
+          <button 
+            (click)="nextQuestion()"
+            [disabled]="currentQuestionIndex === questions.length - 1"
+            class="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition">
+            Next →
+          </button>
+
+          <button 
+            (click)="submitTest()"
+            class="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold hover:shadow-lg transition">
+            ✓ Submit Test
+          </button>
+
+          <button 
+            (click)="cancelTest()"
+            class="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition">
+            ✕ Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Results -->
+    <div *ngIf="testCompleted && testResult" class="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+      <div class="text-center mb-8">
+        <div class="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-4"
+          [ngClass]="testResult.passed ? 'bg-green-100' : 'bg-red-100'">
+          <span class="text-6xl">{{ testResult.passed ? '✓' : '✗' }}</span>
+        </div>
+        <h2 class="text-3xl font-bold mb-2"
+          [ngClass]="testResult.passed ? 'text-green-600' : 'text-red-600'">
+          {{ testResult.passed ? 'Congratulations! You Passed! 🎉' : 'Try Again Next Time 💪' }}
+        </h2>
+        <p class="text-gray-600 text-lg">Test completed on {{ testResult.testDate }}</p>
+      </div>
+
+      <!-- Score Details -->
+      <div class="grid grid-cols-3 gap-4 mb-8 py-6 border-y-2">
+        <div class="text-center">
+          <p class="text-gray-600 text-sm">Your Score</p>
+          <p class="text-3xl font-bold text-blue-600">{{ testResult.percentage }}%</p>
+        </div>
+        <div class="text-center">
+          <p class="text-gray-600 text-sm">Correct Answers</p>
+          <p class="text-3xl font-bold text-green-600">{{ testResult.correctAnswers }}/{{ testResult.totalQuestions }}</p>
+        </div>
+        <div class="text-center">
+          <p class="text-gray-600 text-sm">Wrong Answers</p>
+          <p class="text-3xl font-bold text-red-600">{{ testResult.wrongAnswers }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4">
+        <button 
+          (click)="retakTest()"
+          class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
+          🔄 Retake Test
+        </button>
+        <button 
+          (click)="goToDashboard()"
+          class="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">
+          Dashboard
+        </button>
+      </div>
+    </div>
+
+    <!-- No Questions -->
+    <div *ngIf="!loading && questions.length === 0" class="text-center py-12 bg-white rounded-lg shadow-md">
+      <p class="text-2xl font-semibold text-gray-800 mb-4">No Exams Available</p>
+      <p class="text-gray-600 mb-6">Please check back later for new exams.</p>
+      <button 
+        (click)="goToDashboard()"
+        class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
+        Return to Dashboard
+      </button>
+    </div>
+  </div>
+</div>

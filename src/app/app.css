@@ -1,0 +1,12 @@
+/* App styles - using Tailwind CSS for main styling */
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+::ng-deep app-root {
+  display: block;
+  height: 100%;
+  width: 100%;
+}

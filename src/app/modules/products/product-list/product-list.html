@@ -1,0 +1,94 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-4xl font-bold text-gray-800">Online Exams</h1>
+      <p class="text-gray-600 mt-2">Take available tests and track your progress</p>
+    </div>
+    <a 
+      routerLink="/products/new"
+      class="btn-primary flex items-center space-x-2"
+    >
+      <span>➕</span>
+      <span>Create Test</span>
+    </a>
+  </div>
+
+  <!-- Exams Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Sample Exam Card 1 -->
+    <div class="card">
+      <div class="flex justify-between items-start mb-3">
+        <div>
+          <h3 class="text-xl font-bold text-gray-800">Mathematics 101</h3>
+          <p class="text-sm text-gray-500 mt-1">Basic Algebra & Geometry</p>
+        </div>
+        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Active</span>
+      </div>
+      <p class="text-gray-600 mb-4">Test your knowledge on fundamental mathematical concepts</p>
+      <div class="flex justify-between items-center border-t pt-4">
+        <div class="flex space-x-4">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-blue-600">50</p>
+            <p class="text-xs text-gray-500">Questions</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-orange-600">60m</p>
+            <p class="text-xs text-gray-500">Duration</p>
+          </div>
+        </div>
+        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">Start Test</button>
+      </div>
+    </div>
+
+    <!-- Sample Exam Card 2 -->
+    <div class="card">
+      <div class="flex justify-between items-start mb-3">
+        <div>
+          <h3 class="text-xl font-bold text-gray-800">English Literature</h3>
+          <p class="text-sm text-gray-500 mt-1">Comprehension & Grammar</p>
+        </div>
+        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Active</span>
+      </div>
+      <p class="text-gray-600 mb-4">Assess your English language proficiency and comprehension skills</p>
+      <div class="flex justify-between items-center border-t pt-4">
+        <div class="flex space-x-4">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-blue-600">40</p>
+            <p class="text-xs text-gray-500">Questions</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-orange-600">45m</p>
+            <p class="text-xs text-gray-500">Duration</p>
+          </div>
+        </div>
+        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">Start Test</button>
+      </div>
+    </div>
+
+    <!-- Sample Exam Card 3 -->
+    <div class="card">
+      <div class="flex justify-between items-start mb-3">
+        <div>
+          <h3 class="text-xl font-bold text-gray-800">Science Basics</h3>
+          <p class="text-sm text-gray-500 mt-1">Physics, Chemistry & Biology</p>
+        </div>
+        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">Coming Soon</span>
+      </div>
+      <p class="text-gray-600 mb-4">Comprehensive science exam covering all major branches</p>
+      <div class="flex justify-between items-center border-t pt-4">
+        <div class="flex space-x-4">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-blue-600">60</p>
+            <p class="text-xs text-gray-500">Questions</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-orange-600">90m</p>
+            <p class="text-xs text-gray-500">Duration</p>
+          </div>
+        </div>
+        <button disabled class="px-4 py-2 bg-gray-300 text-gray-500 rounded-lg font-medium cursor-not-allowed">Locked</button>
+      </div>
+    </div>
+  </div>
+</div>

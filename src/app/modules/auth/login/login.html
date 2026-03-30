@@ -1,0 +1,86 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800 px-4">
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-xl shadow-2xl p-8">
+      <!-- College Logo -->
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+            <!-- Graduation Cap -->
+            <path d="M12 2c0 0-9 4-9 8.5 0 2.7 4 5.5 9 5.5s9-2.8 9-5.5c0-4.5-9-8.5-9-8.5zm0 11.5c-4.41 0-8-2.01-8-4.5S7.59 5 12 5s8 2.01 8 4.5-3.59 4-8 4zm0 1c-4.41 0-8 2.01-8 4.5V20c0 2.49 3.59 4.5 8 4.5s8-2.01 8-4.5v-2.5c0-2.49-3.59-4.5-8-4.5z"/>
+          </svg>
+        </div>
+        
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">College Portal</h1>
+        <p class="text-gray-600">Online Test Management</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+        <p class="text-red-800 text-sm font-medium">❌ {{ error }}</p>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="login()" class="space-y-5">
+        <!-- Email Input -->
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+          <input
+            id="email"
+            [(ngModel)]="form.email"
+            name="email"
+            type="email"
+            placeholder="student@example.com"
+            [disabled]="loading"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            required
+          >
+        </div>
+
+        <!-- Password Input -->
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <div class="relative">
+            <input
+              id="password"
+              [(ngModel)]="form.password"
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              [disabled]="loading"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              required
+            >
+            <button
+              type="button"
+              (click)="togglePasswordVisibility()"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition">
+          {{ loading ? '⏳ Signing In...' : '✓ Sign In to College Portal' }}
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="mt-6 text-center text-sm text-gray-600 border-t pt-4">
+        <p class="font-medium text-gray-700 mb-2">Demo Credentials:</p>
+        <p>Email: <span class="font-mono bg-gray-100 px-2 py-1 rounded">jane.smith@example.com</span></p>
+        <p class="text-xs text-gray-500 mt-3">Don't have an account? 
+          <button 
+            (click)="goToRegister()"
+            class="text-blue-600 hover:text-blue-700 font-semibold">
+            Register here
+          </button>
+        </p>
+        <p class="mt-2 text-xs text-gray-500">© 2024 College Test Management System</p>
+      </div>
+    </div>
+  </div>
+</div>

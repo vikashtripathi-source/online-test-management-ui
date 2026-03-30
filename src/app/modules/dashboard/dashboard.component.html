@@ -1,0 +1,147 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <svg class="w-12 h-12 text-blue-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2c0 0-9 4-9 8.5 0 2.7 4 5.5 9 5.5s9-2.8 9-5.5c0-4.5-9-8.5-9-8.5zm0 11.5c-4.41 0-8-2.01-8-4.5S7.59 5 12 5s8 2.01 8 4.5-3.59 4-8 4zm0 1c-4.41 0-8 2.01-8 4.5V20c0 2.49 3.59 4.5 8 4.5s8-2.01 8-4.5v-2.5c0-2.49-3.59-4.5-8-4.5z"/>
+          </svg>
+          <div>
+            <h1 class="text-4xl font-bold" *ngIf="currentStudent">Welcome, {{ currentStudent.firstName }}! 👋</h1>
+            <p class="text-blue-100 mt-2" *ngIf="currentStudent">{{ currentStudent.branch }} Branch | ID: {{ currentStudent.id }}</p>
+          </div>
+        </div>
+        <button 
+          (click)="logout()"
+          class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold transition">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-12">
+      <div class="inline-block">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+      <p class="text-gray-600 mt-4">Loading your dashboard...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+      <p class="text-yellow-800 font-semibold">⚠️ {{ error }}</p>
+      <p class="text-yellow-700 text-sm mt-2">But you can still access all features below!</p>
+    </div>
+
+    <!-- Main Content - Always show if not loading -->
+    <div *ngIf="!loading" class="space-y-8">
+      <!-- Stats Grid - Only show if we have dashboard data -->
+      <div *ngIf="dashboard" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Tests Attempted -->
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm font-medium">Tests Attempted</p>
+              <p class="text-3xl font-bold text-blue-600 mt-2">{{ dashboard.totalTestsAttempted }}</p>
+            </div>
+            <svg class="w-12 h-12 text-blue-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Average Score -->
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm font-medium">Average Score</p>
+              <p class="text-3xl font-bold text-green-600 mt-2">{{ dashboard.averageScore }}%</p>
+            </div>
+            <svg class="w-12 h-12 text-green-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-sm font-medium">Total Orders</p>
+              <p class="text-3xl font-bold text-purple-600 mt-2">{{ dashboard.totalOrders }}</p>
+            </div>
+            <svg class="w-12 h-12 text-purple-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions - Always visible -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">🚀 Quick Actions</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Take Exams Button -->
+          <button 
+            (click)="navigateToExams()"
+            class="group relative bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg p-8 text-center transition hover:shadow-lg hover:scale-105">
+            <div class="text-4xl mb-3">📝</div>
+            <h4 class="text-xl font-bold mb-2">Take Exams</h4>
+            <p class="text-blue-100 text-sm">Test your knowledge with online exams</p>
+          </button>
+
+          <!-- Shop Products Button -->
+          <button 
+            (click)="navigateToProducts()"
+            class="group relative bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg p-8 text-center transition hover:shadow-lg hover:scale-105">
+            <div class="text-4xl mb-3">🛍️</div>
+            <h4 class="text-xl font-bold mb-2">Shop Products</h4>
+            <p class="text-green-100 text-sm">Browse and buy from our campus store</p>
+          </button>
+
+          <!-- View Orders Button -->
+          <button 
+            (click)="navigateToOrders()"
+            class="group relative bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-lg p-8 text-center transition hover:shadow-lg hover:scale-105">
+            <div class="text-4xl mb-3">📦</div>
+            <h4 class="text-xl font-bold mb-2">My Orders</h4>
+            <p class="text-purple-100 text-sm">View your shopping cart and order history</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Test History - Only show if we have data -->
+      <div *ngIf="dashboard && dashboard.recentTests && dashboard.recentTests.length > 0" class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">📊 Recent Test History</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="px-4 py-2 text-gray-700 font-semibold">Test Name</th>
+                <th class="px-4 py-2 text-gray-700 font-semibold">Score</th>
+                <th class="px-4 py-2 text-gray-700 font-semibold">Correct Answers</th>
+                <th class="px-4 py-2 text-gray-700 font-semibold">Date</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr *ngFor="let test of dashboard.recentTests" class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium text-gray-900">{{ test.testName }}</td>
+                <td class="px-4 py-3">
+                  <span [ngClass]="test.score >= 60 ? 'text-green-600 font-bold' : 'text-red-600 font-bold'">
+                    {{ test.score }}%
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-gray-700">{{ test.correctAnswers }}/{{ test.totalQuestions }}</td>
+                <td class="px-4 py-3 text-gray-600">{{ test.testDate | date: 'MMM d, yyyy' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

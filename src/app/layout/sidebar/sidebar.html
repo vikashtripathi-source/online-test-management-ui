@@ -1,0 +1,70 @@
+<aside class="w-64 bg-slate-900 text-white shadow-xl">
+  <div class="p-6">
+    <!-- Sidebar Header with College Icon -->
+    <div class="flex items-center space-x-2 mb-8 pb-4 border-b border-slate-700">
+      <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+        <!-- Graduation Cap -->
+        <path d="M12 2c0 0-9 4-9 8.5 0 2.7 4 5.5 9 5.5s9-2.8 9-5.5c0-4.5-9-8.5-9-8.5zm0 11.5c-4.41 0-8-2.01-8-4.5S7.59 5 12 5s8 2.01 8 4.5-3.59 4-8 4zm0 1c-4.41 0-8 2.01-8 4.5V20c0 2.49 3.59 4.5 8 4.5s8-2.01 8-4.5v-2.5c0-2.49-3.59-4.5-8-4.5z"/>
+      </svg>
+      <h3 class="text-lg font-bold text-blue-400">College Portal</h3>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="space-y-3">
+      <!-- Tests Navigation -->
+      <a 
+        routerLink="/products"
+        routerLinkActive="bg-blue-600"
+        class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition duration-200 cursor-pointer"
+      >
+        <span class="text-lg">📝</span>
+        <span class="font-medium">Tests & Exams</span>
+      </a>
+      
+      <!-- Dashboard Navigation -->
+      <a 
+        routerLink="/dashboard"
+        routerLinkActive="bg-blue-600"
+        class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition duration-200 cursor-pointer"
+      >
+        <span class="text-lg">📊</span>
+        <span class="font-medium">Results Dashboard</span>
+      </a>
+
+      <!-- Quick Links Section -->
+      <div class="pt-4 mt-4 border-t border-slate-700">
+        <p class="text-xs font-semibold text-gray-400 px-4 mb-3 uppercase">Quick Access</p>
+        
+        <a 
+          href="#"
+          class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-slate-800 transition duration-200 cursor-pointer text-sm"
+        >
+          <span>📚</span>
+          <span>Study Materials</span>
+        </a>
+
+        <a 
+          href="#"
+          class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-slate-800 transition duration-200 cursor-pointer text-sm"
+        >
+          <span>❓</span>
+          <span>FAQs</span>
+        </a>
+
+        <a 
+          href="#"
+          class="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-slate-800 transition duration-200 cursor-pointer text-sm"
+        >
+          <span>💬</span>
+          <span>Support</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Footer -->
+  <div class="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-700 bg-slate-950">
+    <p class="text-xs text-gray-400">© 2024 College System</p>
+    <p class="text-xs text-gray-500 mt-1">Test Management v1.0</p>
+  </div>
+</aside>
