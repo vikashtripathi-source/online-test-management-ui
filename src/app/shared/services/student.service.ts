@@ -39,6 +39,23 @@ export class StudentService extends ApiService {
     return this.currentStudent$.asObservable();
   }
 
+  login(credentials: LoginRequest): Observable<any> {
+    return this.post<any>('/students/login', credentials).pipe(
+      tap(response => {
+        // Save token
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        }
+        // Save student data
+        if (response.student) {
+          localStorage.setItem('student', JSON.stringify(response.student));
+          this.currentStudent$.next(response.student);
+          console.log('[StudentService] Login - Student saved with role:', response.student.role);
+        }
+      })
+    );
+  }
+
   register(student: StudentDTO): Observable<Student> {
     return this.post<Student>('/students/register', student).pipe(
       tap(response => {
@@ -48,13 +65,14 @@ export class StudentService extends ApiService {
     );
   }
 
-  login(req: LoginRequest): Observable<JwtResponse> {
-    return this.post<JwtResponse>('/students/login', req).pipe(
+  registerAdmin(data: any): Observable<Student> {
+    console.log('[StudentService] Registering admin user with role:', data.role);
+    return this.post<Student>('/students/register/admin', data).pipe(
       tap(response => {
-        console.log('[StudentService] Login successful:', response);
-        localStorage.setItem('student', JSON.stringify(response.student));
-        this.currentStudent$.next(response.student);
-      })
+        console.log('[StudentService] Admin registration successful:', response);
+        // Do NOT auto-login admin users - they must login separately
+      }),
+      // Handle errors explicitly
     );
   }
 

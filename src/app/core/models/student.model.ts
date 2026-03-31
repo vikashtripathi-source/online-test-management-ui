@@ -1,3 +1,5 @@
+export type UserRole = 'STUDENT' | 'ADMIN' | 'TEACHER' | 'MANAGER';
+
 export interface Student {
   id: number;
   email: string;
@@ -6,6 +8,7 @@ export interface Student {
   branch: string;
   mobileNumber: string;
   imageUrl?: string;
+  role?: UserRole; // STUDENT, ADMIN, TEACHER, MANAGER
 }
 
 export interface StudentDTO extends Student {

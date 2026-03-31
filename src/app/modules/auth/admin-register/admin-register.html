@@ -1,0 +1,209 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-purple-800 px-4">
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-xl shadow-2xl p-8">
+      <!-- College Logo -->
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-10 h-10 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+            <!-- Graduation Cap -->
+            <path d="M12 2c0 0-9 4-9 8.5 0 2.7 4 5.5 9 5.5s9-2.8 9-5.5c0-4.5-9-8.5-9-8.5zm0 11.5c-4.41 0-8-2.01-8-4.5S7.59 5 12 5s8 2.01 8 4.5-3.59 4-8 4zm0 1c-4.41 0-8 2.01-8 4.5V20c0 2.49 3.59 4.5 8 4.5s8-2.01 8-4.5v-2.5c0-2.49-3.59-4.5-8-4.5z"/>
+          </svg>
+        </div>
+        
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">📚 Admin Registration</h1>
+        <p class="text-gray-600">Register as Teacher/Admin</p>
+      </div>
+
+      <!-- Info Alert -->
+      <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <p class="text-blue-800 text-sm font-medium">ℹ️ Contact your institution administrator for the Admin Registration Code</p>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="success" class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+        <p class="text-green-800 text-sm font-medium">{{ success }}</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+        <p class="text-red-800 text-sm font-medium">❌ {{ error }}</p>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="register()" class="space-y-3">
+        
+        <!-- SECTION 1: User Information -->
+        <div class="border-t pt-4 mt-4">
+          <h3 class="text-sm font-bold text-gray-700 mb-3">👤 Personal Information</h3>
+          
+          <!-- Role Selection (IMPORTANT) -->
+          <div>
+            <label for="role" class="block text-sm font-medium text-gray-700 mb-1">
+              Select Role * <span class="text-red-500 font-bold">(Important)</span>
+            </label>
+            <select
+              id="role"
+              [(ngModel)]="form.role"
+              name="role"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border-2 border-purple-300 rounded-lg focus:outline-none focus:border-purple-600 bg-purple-50 font-semibold"
+              required
+            >
+              <option value="" disabled>-- Select Your Role --</option>
+              <option *ngFor="let role of roles" [value]="role.value">
+                {{ role.label }}
+              </option>
+            </select>
+          </div>
+
+          <!-- First Name -->
+          <div class="mt-3">
+            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+            <input
+              id="firstName"
+              [(ngModel)]="form.firstName"
+              name="firstName"
+              type="text"
+              placeholder="John"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+              required
+            >
+          </div>
+
+          <!-- Last Name -->
+          <div class="mt-2">
+            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+            <input
+              id="lastName"
+              [(ngModel)]="form.lastName"
+              name="lastName"
+              type="text"
+              placeholder="Doe"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+              required
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="mt-2">
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+            <input
+              id="email"
+              [(ngModel)]="form.email"
+              name="email"
+              type="email"
+              placeholder="teacher@example.com"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- SECTION 2: Institution Details -->
+        <div class="border-t pt-4">
+          <h3 class="text-sm font-bold text-gray-700 mb-3">🏫 Institution Details</h3>
+
+          <!-- Branch -->
+          <div>
+            <label for="branch" class="block text-sm font-medium text-gray-700 mb-1">Department/Branch *</label>
+            <select
+              id="branch"
+              [(ngModel)]="form.branch"
+              name="branch"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+              required
+            >
+              <option value="" disabled>Select Branch</option>
+              <option *ngFor="let branch of branches" [value]="branch">{{ branch }}</option>
+            </select>
+          </div>
+
+          <!-- Mobile Number -->
+          <div class="mt-2">
+            <label for="mobileNumber" class="block text-sm font-medium text-gray-700 mb-1">Mobile Number (10 digits) *</label>
+            <input
+              id="mobileNumber"
+              [(ngModel)]="form.mobileNumber"
+              name="mobileNumber"
+              type="tel"
+              placeholder="9876543210"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+              maxlength="10"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- SECTION 3: Security -->
+        <div class="border-t pt-4">
+          <h3 class="text-sm font-bold text-gray-700 mb-3">🔐 Security Information</h3>
+
+          <!-- Admin Code (CRITICAL) -->
+          <div>
+            <label for="adminCode" class="block text-sm font-medium text-gray-700 mb-1">
+              Admin Registration Code * <span class="text-red-500 text-xs">(Required - Get from Administrator)</span>
+            </label>
+            <input
+              id="adminCode"
+              [(ngModel)]="adminCode"
+              name="adminCode"
+              type="password"
+              placeholder="Enter the secret admin code"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border-2 border-red-300 rounded-lg focus:outline-none focus:border-red-600 bg-red-50"
+              required
+            >
+            <p class="text-xs text-gray-600 mt-1">💡 Tip: This code prevents unauthorized admin registration</p>
+          </div>
+
+          <!-- Password -->
+          <div class="mt-3">
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password (min 6 chars) *</label>
+            <input
+              id="password"
+              [(ngModel)]="form.password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              [disabled]="loading"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 text-lg font-semibold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition mt-6"
+        >
+          {{ loading ? '⏳ Creating Admin Account...' : '✓ Register as Admin' }}
+        </button>
+      </form>
+
+      <!-- Footer Links -->
+      <div class="mt-6 text-center text-sm text-gray-600 border-t pt-4 space-y-2">
+        <p>Don't need admin access? 
+          <button 
+            (click)="goToRegister()"
+            class="text-green-600 hover:text-green-700 font-semibold">
+            Student Registration
+          </button>
+        </p>
+        <p>Already have an account? 
+          <button 
+            (click)="goToLogin()"
+            class="text-blue-600 hover:text-blue-700 font-semibold">
+            Sign In
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

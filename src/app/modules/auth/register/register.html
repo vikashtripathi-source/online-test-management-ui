@@ -128,12 +128,19 @@
       </form>
 
       <!-- Login Link -->
-      <div class="mt-6 text-center text-sm text-gray-600 border-t pt-4">
+      <div class="mt-6 text-center text-sm text-gray-600 border-t pt-4 space-y-2">
         <p>Already have an account? 
           <button 
             (click)="goToLogin()"
             class="text-green-600 hover:text-green-700 font-semibold">
             Sign In
+          </button>
+        </p>
+        <p>Want to register as Teacher/Admin? 
+          <button 
+            (click)="goToAdminRegister()"
+            class="text-blue-600 hover:text-blue-700 font-semibold">
+            Admin Registration
           </button>
         </p>
       </div>

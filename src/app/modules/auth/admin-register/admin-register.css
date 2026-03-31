@@ -1,0 +1,74 @@
+/* Admin Registration Component Styles */
+
+:host {
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .bg-gradient-to-br {
+    padding: 1rem;
+  }
+
+  .max-w-md {
+    width: 100%;
+  }
+
+  .rounded-xl {
+    border-radius: 0.5rem;
+  }
+
+  .p-8 {
+    padding: 1.5rem;
+  }
+}
+
+/* Form section styling */
+.border-t {
+  border-top: 1px solid #e5e7eb;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+/* Input focus states */
+input:focus,
+select:focus {
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+/* Role selection highlight */
+select[name="role"] {
+  background: linear-gradient(135deg, #f3e8ff, #ede9fe);
+  border-color: #d8d5e6;
+}
+
+/* Admin code input styling */
+input[name="adminCode"] {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border-color: #fca5a5;
+  font-weight: 500;
+}
+
+/* Success message animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bg-green-50,
+.bg-red-50,
+.bg-blue-50 {
+  animation: slideIn 0.3s ease-out;
+}

@@ -21,13 +21,14 @@ export class RegisterComponent {
     branch: '',
     mobileNumber: '',
     imageUrl: '',
-    password: ''
+    password: '',
+    role: 'STUDENT'  // Default role for regular registration
   };
   
   loading = false;
   error: string | null = null;
   success: string | null = null;
-  branches = ['CSE', 'ECE', 'Mechanical', 'Civil', 'Electrical'];
+  branches = ['CSE', 'ECE', 'MECHANICAL', 'CIVIL', 'ELECTRICAL']; // Match backend enum exactly
 
   constructor(private studentService: StudentService, private router: Router) {}
 
@@ -72,5 +73,9 @@ export class RegisterComponent {
 
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  goToAdminRegister() {
+    this.router.navigate(['/admin-register']);
   }
 }

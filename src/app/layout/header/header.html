@@ -17,12 +17,28 @@
       </div>
     </div>
 
-    <!-- Logout Button -->
-    <button 
-      (click)="logout()"
-      class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition duration-200 ease-in-out shadow-md"
-    >
-      Logout
-    </button>
+    <!-- Admin & Logout Buttons -->
+    <div class="flex gap-3 items-center">
+      <!-- Show Admin Panel only for admin users -->
+      <a 
+        *ngIf="isAdmin"
+        routerLink="/admin"
+        class="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition duration-200 ease-in-out shadow-md flex items-center gap-2">
+        <span>⚙️</span> Admin Panel
+      </a>
+      
+      <!-- Show current user role -->
+      <div class="text-sm text-blue-100" *ngIf="currentUser">
+        <span *ngIf="isAdmin">{{ currentUser.firstName }} (Admin)</span>
+        <span *ngIf="!isAdmin">{{ currentUser.firstName }} (Student)</span>
+      </div>
+      
+      <button 
+        (click)="logout()"
+        class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition duration-200 ease-in-out shadow-md"
+      >
+        Logout
+      </button>
+    </div>
   </div>
 </div>

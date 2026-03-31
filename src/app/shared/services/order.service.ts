@@ -85,4 +85,8 @@ export class OrderService extends ApiService {
   getOrdersByStudent(studentId: number): Observable<Order[]> {
     return this.get<Order[]>(`/orders/student/${studentId}`);
   }
+
+  updateOrderStatus(id: number, status: string): Observable<Order> {
+    return this.put<Order>(`/orders/${id}/status`, { status });
+  }
 }

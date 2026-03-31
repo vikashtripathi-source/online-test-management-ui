@@ -59,4 +59,8 @@ export class ExamService extends ApiService {
   getStudentResults(studentId: number): Observable<TestResultResponse> {
     return this.get<TestResultResponse>(`/exams/results/${studentId}`);
   }
+
+  getStudentTestRecords(): Observable<StudentTestRecord[]> {
+    return this.get<StudentTestRecord[]>('/exams/student-records');
+  }
 }

@@ -37,8 +37,18 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login successful:', response);
         this.loading = false;
-        console.log('Navigating to dashboard...');
-        this.router.navigate(['/dashboard']);
+        
+        // Get user role and route accordingly
+        const userRole = response.student?.role || 'STUDENT';
+        console.log('[LoginComponent] User role:', userRole);
+        
+        if (userRole === 'ADMIN' || userRole === 'TEACHER' || userRole === 'MANAGER') {
+          console.log('Routing to admin dashboard...');
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          console.log('Routing to student dashboard...');
+          this.router.navigate(['/dashboard']);
+        }
       },
       error: (err) => {
         this.loading = false;
@@ -60,6 +70,10 @@ export class LoginComponent {
 
   goToRegister() {
     this.router.navigate(['/register']);
+  }
+
+  goToAdminRegister() {
+    this.router.navigate(['/admin-register']);
   }
 
   togglePasswordVisibility() {
