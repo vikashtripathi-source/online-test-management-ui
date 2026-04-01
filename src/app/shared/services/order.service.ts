@@ -28,17 +28,29 @@ export class OrderService extends ApiService {
   }
 
   addToCart(product: any): void {
+    console.log('=== ORDER SERVICE ADD TO CART ===');
+    console.log('Current cart:', this.cart$.value);
+    console.log('Adding product:', product);
+    
     const current = this.cart$.value;
     const existing = current.find(item => item.id === product.id);
     
     if (existing) {
+      console.log('Product exists in cart, increasing quantity...');
       existing.quantity++;
+      console.log('Updated existing item:', existing);
     } else {
-      current.push({ ...product, quantity: 1 });
+      console.log('Product not in cart, adding new item...');
+      const newItem = { ...product, quantity: 1 };
+      current.push(newItem);
+      console.log('Added new item:', newItem);
     }
     
+    console.log('Final cart before update:', current);
     this.cart$.next([...current]);
     localStorage.setItem('cart', JSON.stringify(current));
+    console.log('Cart saved to localStorage');
+    console.log('=== ORDER SERVICE ADD TO CART COMPLETE ===');
   }
 
   removeFromCart(productId: number): void {

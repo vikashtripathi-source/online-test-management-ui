@@ -8,6 +8,16 @@
       </div>
       <div class="flex items-center gap-4">
         <button 
+          (click)="fixAllZeroStock()"
+          class="px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition">
+          🔧 Fix Stock
+        </button>
+        <button 
+          (click)="testCart()"
+          class="px-4 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 transition">
+          🛒 Test Cart
+        </button>
+        <button 
           (click)="goToCart()"
           class="relative px-6 py-2 bg-white text-green-600 rounded-lg font-medium hover:bg-green-50 transition">
           🛒 Cart
@@ -83,19 +93,21 @@
         <!-- Product Image -->
         <div class="relative h-48 bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center overflow-hidden">
           <img 
-            *ngIf="product.imageUrl" 
-            [src]="product.imageUrl" 
+            *ngIf="getProductImageUrl(product)" 
+            [src]="getProductImageUrl(product)" 
             alt="{{ product.name }}"
-            class="w-full h-full object-cover">
-          <span *ngIf="!product.imageUrl" class="text-6xl">📦</span>
+            class="w-full h-full object-cover"
+            (error)="onImageError($event)">
+          <span *ngIf="!getProductImageUrl(product)" class="text-6xl">📦</span>
 
           <!-- Stock Badge -->
           <div 
             class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
             [ngClass]="getLowStockClass(product) === 'out-of-stock' ? 'bg-red-500 text-white' : 
                        getLowStockClass(product) === 'low-stock' ? 'bg-yellow-500 text-white' : 
+                       getLowStockClass(product) === 'updating-stock' ? 'bg-blue-500 text-white' :
                        'bg-green-500 text-white'">
-            {{ product.stockQuantity }} in stock
+            {{ getStockDisplayText(product) }}
           </div>
 
           <!-- Branch Badge -->
@@ -115,11 +127,18 @@
               <p class="text-2xl font-bold text-green-600">₹{{ product.price }}</p>
               <p class="text-xs text-gray-500">{{ product.category }}</p>
             </div>
+            <div *ngIf="product.stockQuantity === 0" class="text-right">
+              <button 
+                (click)="fixProductStock(product); $event.stopPropagation(); $event.preventDefault()"
+                class="px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white text-xs rounded-full transition">
+                🔧 Fix Stock
+              </button>
+            </div>
           </div>
 
           <!-- Add to Cart Button -->
           <button 
-            (click)="addToCart(product); $event.stopPropagation()"
+            (click)="addToCart(product); $event.stopPropagation(); $event.preventDefault()"
             [disabled]="isOutOfStock(product)"
             class="w-full px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition">
             {{ isOutOfStock(product) ? 'Out of Stock' : '🛒 Add to Cart' }}
@@ -156,11 +175,12 @@
         <!-- Product Image -->
         <div class="h-64 bg-gradient-to-br from-green-100 to-green-50 rounded-lg flex items-center justify-center mb-6 overflow-hidden">
           <img 
-            *ngIf="selectedProduct.imageUrl" 
-            [src]="selectedProduct.imageUrl" 
+            *ngIf="getProductImageUrl(selectedProduct)"
+            [src]="getProductImageUrl(selectedProduct)"
             alt="{{ selectedProduct.name }}"
-            class="w-full h-full object-cover">
-          <span *ngIf="!selectedProduct.imageUrl" class="text-8xl">📦</span>
+            class="w-full h-full object-cover"
+            (error)="onImageError($event)">
+          <span *ngIf="!getProductImageUrl(selectedProduct)" class="text-8xl">📦</span>
         </div>
 
         <!-- Product Details -->
