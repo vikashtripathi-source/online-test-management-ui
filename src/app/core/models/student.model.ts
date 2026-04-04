@@ -5,7 +5,7 @@ export interface Student {
   email: string;
   firstName: string;
   lastName: string;
-  branch: string;
+  branch: 'MECHANICAL' | 'EC' | 'IT' | 'CSE';
   mobileNumber: string;
   imageUrl?: string;
   role?: UserRole; // STUDENT, ADMIN, TEACHER, MANAGER

@@ -1,12 +1,25 @@
 export interface Question {
   id: number;
   questionText: string;
+  question?: string; // Add question field for API compatibility
   optionA: string;
   optionB: string;
   optionC: string;
   optionD: string;
   correctAnswer: string;
-  branch: string;
+  branch: 'MECHANICAL' | 'EC' | 'IT' | 'CSE';
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+}
+
+// DTO for API requests (backend format)
+export interface QuestionRequest {
+  question: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctAnswer: string;
+  branch: 'MECHANICAL' | 'EC' | 'IT' | 'CSE';
   difficulty: 'EASY' | 'MEDIUM' | 'HARD';
 }
 
@@ -35,7 +48,7 @@ export interface StudentTestRecord {
   score: number;
   totalQuestions: number;
   correctAnswers: number;
-  branch: string;
+  branch: 'MECHANICAL' | 'EC' | 'IT' | 'CSE';
   testDate: string;
 }
 

@@ -100,8 +100,15 @@
 
       <!-- Question -->
       <div *ngIf="getCurrentQuestion()" class="bg-white rounded-lg shadow-md p-8">
+        <!-- Debug Info -->
+        <div class="mb-4 p-2 bg-gray-100 rounded text-xs">
+          <p>Debug - Question ID: {{ getCurrentQuestion()?.id }}</p>
+          <p>Debug - Question Text: "{{ getCurrentQuestion()?.questionText }}"</p>
+          <p>Debug - Has Options: A={{ !!getCurrentQuestion()?.optionA }}, B={{ !!getCurrentQuestion()?.optionB }}, C={{ !!getCurrentQuestion()?.optionC }}, D={{ !!getCurrentQuestion()?.optionD }}</p>
+        </div>
+        
         <h2 class="text-2xl font-bold text-gray-800 mb-6">
-          {{ getCurrentQuestion()?.questionText }}
+          {{ getCurrentQuestion()?.questionText || 'No question text available' }}
         </h2>
 
         <!-- Options -->
@@ -120,10 +127,10 @@
             <span class="ml-4 text-lg font-medium text-gray-800">
               {{ option }}. 
               <span [ngSwitch]="option">
-                <span *ngSwitchCase="'A'">{{ getCurrentQuestion()?.optionA }}</span>
-                <span *ngSwitchCase="'B'">{{ getCurrentQuestion()?.optionB }}</span>
-                <span *ngSwitchCase="'C'">{{ getCurrentQuestion()?.optionC }}</span>
-                <span *ngSwitchCase="'D'">{{ getCurrentQuestion()?.optionD }}</span>
+                <span *ngSwitchCase="'A'">{{ getCurrentQuestion()?.optionA || 'Option A not available' }}</span>
+                <span *ngSwitchCase="'B'">{{ getCurrentQuestion()?.optionB || 'Option B not available' }}</span>
+                <span *ngSwitchCase="'C'">{{ getCurrentQuestion()?.optionC || 'Option C not available' }}</span>
+                <span *ngSwitchCase="'D'">{{ getCurrentQuestion()?.optionD || 'Option D not available' }}</span>
               </span>
             </span>
           </label>
@@ -193,7 +200,7 @@
       <!-- Action Buttons -->
       <div class="flex gap-4">
         <button 
-          (click)="retakTest()"
+          (click)="retakeTest()"
           class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
           🔄 Retake Test
         </button>

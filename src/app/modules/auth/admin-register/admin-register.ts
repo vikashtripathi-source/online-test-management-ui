@@ -18,7 +18,7 @@ export class AdminRegisterComponent {
     email: '',
     firstName: '',
     lastName: '',
-    branch: '',
+    branch: 'CSE', // Default to CSE instead of empty string
     mobileNumber: '',
     imageUrl: '',
     password: '',
@@ -29,7 +29,7 @@ export class AdminRegisterComponent {
   loading = false;
   error: string | null = null;
   success: string | null = null;
-  branches = ['CSE', 'ECE', 'MECHANICAL', 'CIVIL', 'ELECTRICAL']; // Match backend enum exactly
+  branches = ['CSE', 'EC', 'IT', 'MECHANICAL']; // Match backend enum exactly
   roles: Array<{label: string, value: 'TEACHER' | 'ADMIN' | 'MANAGER'}> = [
     { label: 'Teacher', value: 'TEACHER' },
     { label: 'Admin', value: 'ADMIN' },

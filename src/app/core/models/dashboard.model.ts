@@ -3,7 +3,7 @@ import { StudentTestRecord } from './exam.model';
 export interface Dashboard {
   studentId: number;
   studentName: string;
-  branch: string;
+  branch: 'MECHANICAL' | 'EC' | 'IT' | 'CSE';
   totalTestsAttempted: number;
   averageScore: number;
   totalOrders: number;

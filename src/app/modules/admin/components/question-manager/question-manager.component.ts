@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExamService } from '../../../../shared/services/exam.service';
-import { Question } from '../../../../core/models/exam.model';
+import { Question, QuestionRequest } from '../../../../core/models/exam.model';
 
 @Component({
   selector: 'app-question-manager',
@@ -41,9 +41,9 @@ import { Question } from '../../../../core/models/exam.model';
                 class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
                 <option value="">Select Branch</option>
                 <option value="CSE">CSE</option>
-                <option value="ECE">ECE</option>
-                <option value="MECH">MECH</option>
-                <option value="CIVIL">CIVIL</option>
+                <option value="EC">EC</option>
+                <option value="IT">IT</option>
+                <option value="MECHANICAL">MECHANICAL</option>
               </select>
             </div>
             <div>
@@ -135,7 +135,7 @@ import { Question } from '../../../../core/models/exam.model';
           <div *ngFor="let q of questions; let i = index" class="border-2 border-gray-200 rounded-lg p-6 hover:border-blue-500 hover:shadow-md transition">
             <div class="flex items-start justify-between mb-3">
               <div class="flex-1">
-                <p class="text-lg font-semibold text-gray-800">{{ i + 1 }}. {{ q.questionText }}</p>
+                <p class="text-lg font-semibold text-gray-800">{{ i + 1 }}. {{ q.question || q.questionText }}</p>
                 <div class="flex gap-3 mt-2">
                   <span class="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-semibold">{{ q.branch }}</span>
                   <span [ngClass]="{
@@ -231,7 +231,19 @@ export class QuestionManagerComponent implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
 
-    this.examService.addQuestion(this.questionForm.value).subscribe({
+    // Map frontend form data to backend API format
+    const questionData: QuestionRequest = {
+      question: this.questionForm.value.questionText, // Map questionText to question
+      optionA: this.questionForm.value.optionA,
+      optionB: this.questionForm.value.optionB,
+      optionC: this.questionForm.value.optionC,
+      optionD: this.questionForm.value.optionD,
+      correctAnswer: this.questionForm.value.correctAnswer,
+      branch: this.questionForm.value.branch,
+      difficulty: this.questionForm.value.difficulty
+    };
+
+    this.examService.addQuestion(questionData).subscribe({
       next: (question) => {
         this.questions.push(question);
         this.questionForm.reset();
@@ -239,7 +251,8 @@ export class QuestionManagerComponent implements OnInit {
         this.loading = false;
         setTimeout(() => this.successMessage = '', 3000);
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error adding question:', error);
         this.errorMessage = 'Failed to add question. Please try again.';
         this.loading = false;
       }

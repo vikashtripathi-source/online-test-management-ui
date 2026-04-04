@@ -63,9 +63,9 @@ import { StudentTestRecord } from '../../../../core/models/exam.model';
               class="px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500">
               <option value="">All Branches</option>
               <option value="CSE">CSE</option>
-              <option value="ECE">ECE</option>
-              <option value="MECH">MECH</option>
-              <option value="CIVIL">CIVIL</option>
+              <option value="EC">EC</option>
+              <option value="IT">IT</option>
+              <option value="MECHANICAL">MECHANICAL</option>
             </select>
 
             <select 

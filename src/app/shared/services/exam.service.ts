@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { 
   Question, 
+  QuestionRequest,
   SubmitTestRequest, 
   TestResultResponse,
   StudentTestRecord 
@@ -18,11 +19,11 @@ export class ExamService extends ApiService {
   }
 
   // Questions Management
-  addQuestion(question: Question): Observable<Question> {
+  addQuestion(question: QuestionRequest): Observable<Question> {
     return this.post<Question>('/exams/questions', question);
   }
 
-  addMultipleQuestions(questions: Question[]): Observable<Question[]> {
+  addMultipleQuestions(questions: QuestionRequest[]): Observable<Question[]> {
     return this.post<Question[]>('/exams/questions/bulk', questions);
   }
 

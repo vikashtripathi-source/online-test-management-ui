@@ -8,6 +8,11 @@
       </div>
       <div class="flex items-center gap-4">
         <button 
+          (click)="activateAllProducts()"
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition">
+          ⚡ Activate All
+        </button>
+        <button 
           (click)="fixAllZeroStock()"
           class="px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition">
           🔧 Fix Stock
@@ -235,6 +240,42 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Cart Success Notification -->
+  <div *ngIf="showCartNotification" 
+       class="fixed bottom-6 right-6 bg-white rounded-xl shadow-2xl p-6 max-w-sm border-l-4 border-green-500 transform transition-all duration-300 z-50 animate-slide-up">
+    <div class="flex items-start gap-4">
+      <div class="flex-shrink-0">
+        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+          <span class="text-2xl">🛒</span>
+        </div>
+      </div>
+      <div class="flex-grow">
+        <h4 class="font-bold text-gray-800 mb-1">Added to Cart!</h4>
+        <p class="text-gray-600 text-sm mb-3">{{ cartNotificationProduct?.name }} has been added to your cart</p>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-500">Cart total: {{ cartCount }} items</span>
+          <div class="flex gap-2">
+            <button 
+              (click)="closeCartNotification()"
+              class="px-3 py-1 text-gray-600 hover:text-gray-800 text-sm font-medium transition">
+              Continue Shopping
+            </button>
+            <button 
+              (click)="goToCartQuick()"
+              class="px-4 py-1 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition">
+              View Cart →
+            </button>
+          </div>
+        </div>
+      </div>
+      <button 
+        (click)="closeCartNotification()"
+        class="flex-shrink-0 text-gray-400 hover:text-gray-600 transition">
+        <span class="text-xl">×</span>
+      </button>
     </div>
   </div>
 </div>

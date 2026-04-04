@@ -18,7 +18,7 @@ export class RegisterComponent {
     email: '',
     firstName: '',
     lastName: '',
-    branch: '',
+    branch: 'CSE', // Default to CSE instead of empty string
     mobileNumber: '',
     imageUrl: '',
     password: '',
@@ -28,7 +28,7 @@ export class RegisterComponent {
   loading = false;
   error: string | null = null;
   success: string | null = null;
-  branches = ['CSE', 'ECE', 'MECHANICAL', 'CIVIL', 'ELECTRICAL']; // Match backend enum exactly
+  branches = ['CSE', 'EC', 'IT', 'MECHANICAL']; // Match backend enum exactly
 
   constructor(private studentService: StudentService, private router: Router) {}
 
